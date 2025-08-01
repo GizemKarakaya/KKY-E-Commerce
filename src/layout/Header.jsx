@@ -1,0 +1,162 @@
+import React, { useState } from 'react';
+import { Phone, Mail, Facebook, Instagram, Twitter, Youtube, Search, ShoppingCart, Heart, User, Menu, X } from 'lucide-react';
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleShopDropdown = () => {
+    setIsShopDropdownOpen(!isShopDropdownOpen);
+  };
+
+  return (
+    <header className="w-full">
+      {/* Top Bar */}
+      <div className="bg-primary-900 text-white py-2 px-4">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm">
+          <div className="flex items-center space-x-4 mb-2 sm:mb-0">
+            <div className="flex items-center space-x-2">
+              <Phone size={14} />
+              <span>(225) 555-0118</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Mail size={14} />
+              <span>michelle.rivera@example.com</span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs">Follow Us and get a chance to win 80% off</span>
+            <div className="flex items-center space-x-2">
+              <Facebook size={14} className="cursor-pointer hover:text-primary-300" />
+              <Instagram size={14} className="cursor-pointer hover:text-primary-300" />
+              <Twitter size={14} className="cursor-pointer hover:text-primary-300" />
+              <Youtube size={14} className="cursor-pointer hover:text-primary-300" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Navigation */}
+      <nav className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <h1 className="text-2xl font-bold text-primary-900">Bandage</h1>
+            </div>
+
+            {/* Desktop Menu */}
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="/" className="text-gray-700 hover:text-primary-600 font-medium">Home</a>
+              <div className="relative">
+                <button
+                  onClick={toggleShopDropdown}
+                  className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1"
+                >
+                  <span>Shop</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isShopDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50">
+                    <a href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Products</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kadin</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Erkek</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bags</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Belts</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cosmetics</a>
+                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hats</a>
+                  </div>
+                )}
+              </div>
+              <a href="/about" className="text-gray-700 hover:text-primary-600 font-medium">About</a>
+              <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
+              <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
+              <div className="relative">
+                <button
+                  className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1"
+                >
+                  <span>Pages</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto">
+                  <a href="/pricing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pricing</a>
+                  <a href="/contact" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Contact</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop Icons */}
+            <div className="hidden md:flex items-center space-x-4">
+              <button className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+                <User size={20} />
+                <span className="text-sm">Login / Register</span>
+              </button>
+              <button className="text-gray-700 hover:text-primary-600">
+                <Search size={20} />
+              </button>
+              <button className="text-gray-700 hover:text-primary-600 relative">
+                <ShoppingCart size={20} />
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+              </button>
+              <button className="text-gray-700 hover:text-primary-600">
+                <Heart size={20} />
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={toggleMenu}
+                className="text-gray-700 hover:text-primary-600"
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden border-t border-gray-200 py-4">
+              <div className="flex flex-col space-y-4">
+                <a href="/" className="text-gray-700 hover:text-primary-600 font-medium">Home</a>
+                <a href="/shop" className="text-gray-700 hover:text-primary-600 font-medium">Shop</a>
+                <a href="/about" className="text-gray-700 hover:text-primary-600 font-medium">About</a>
+                <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
+                <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
+                <a href="/pricing" className="text-gray-700 hover:text-primary-600 font-medium">Pricing</a>
+                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                  <button className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+                    <User size={20} />
+                    <span className="text-sm">Login / Register</span>
+                  </button>
+                  <div className="flex items-center space-x-4">
+                    <button className="text-gray-700 hover:text-primary-600">
+                      <Search size={20} />
+                    </button>
+                    <button className="text-gray-700 hover:text-primary-600 relative">
+                      <ShoppingCart size={20} />
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    <button className="text-gray-700 hover:text-primary-600">
+                      <Heart size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Header; 
