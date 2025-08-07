@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Phone, Mail, Facebook, Instagram, Twitter, Youtube, Search, ShoppingCart, Heart, User, Menu, X } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import Gravatar from 'react-gravatar';
+import {
+  Phone, Mail, Facebook, Instagram, Twitter, Youtube,
+  Search, ShoppingCart, Heart, User, Menu, X
+} from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleShopDropdown = () => setIsShopDropdownOpen(!isShopDropdownOpen);
 
-  const toggleShopDropdown = () => {
-    setIsShopDropdownOpen(!isShopDropdownOpen);
-  };
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <header className="w-full">
@@ -77,28 +79,22 @@ const Header = () => {
               <a href="/about" className="text-gray-700 hover:text-primary-600 font-medium">About</a>
               <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
               <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
-              <div className="relative">
-                <button
-                  className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1"
-                >
-                  <span>Pages</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto">
-                  <a href="/pricing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pricing</a>
-                  <a href="/contact" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Contact</a>
-                </div>
-              </div>
+              <a href="/pricing" className="text-gray-700 hover:text-primary-600 font-medium">Pricing</a>
             </div>
 
             {/* Desktop Icons */}
             <div className="hidden md:flex items-center space-x-4">
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
-                <User size={20} />
-                <span className="text-sm">Login / Register</span>
-              </button>
+              {user ? (
+                <div className="flex items-center space-x-2">
+                  <Gravatar email={user.email} size={30} className="rounded-full cursor-pointer" title={user.email} />
+                  <span className="text-sm font-medium">{user.name || user.email}</span>
+                </div>
+              ) : (
+                <a href="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+                  <User size={20} />
+                  <span className="text-sm">Login / Register</span>
+                </a>
+              )}
               <button className="text-gray-700 hover:text-primary-600">
                 <Search size={20} />
               </button>
@@ -113,10 +109,7 @@ const Header = () => {
 
             {/* Mobile Menu Button */}
             <div className="md:hidden">
-              <button
-                onClick={toggleMenu}
-                className="text-gray-700 hover:text-primary-600"
-              >
+              <button onClick={toggleMenu} className="text-gray-700 hover:text-primary-600">
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
@@ -133,10 +126,17 @@ const Header = () => {
                 <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
                 <a href="/pricing" className="text-gray-700 hover:text-primary-600 font-medium">Pricing</a>
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                  <button className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
-                    <User size={20} />
-                    <span className="text-sm">Login / Register</span>
-                  </button>
+                  {user ? (
+                    <div className="flex items-center space-x-2">
+                      <Gravatar email={user.email} size={30} className="rounded-full cursor-pointer" title={user.email} />
+                      <span className="text-sm font-medium">{user.name || user.email}</span>
+                    </div>
+                  ) : (
+                    <a href="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+                      <User size={20} />
+                      <span className="text-sm">Login / Register</span>
+                    </a>
+                  )}
                   <div className="flex items-center space-x-4">
                     <button className="text-gray-700 hover:text-primary-600">
                       <Search size={20} />
@@ -159,4 +159,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;

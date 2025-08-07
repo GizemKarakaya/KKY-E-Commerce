@@ -11,6 +11,8 @@ import AboutPage from './pages/AboutPage';
 import PricingPage from './pages/PricingPage';
 import ContactPage from './pages/ContactPage';
 import SignUpPage from './pages/SignUpPage'; 
+import LoginPage from './pages/LoginPage';
+
 
 import './App.css';
 
@@ -28,6 +30,7 @@ function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </PageContent>
         <Footer />
