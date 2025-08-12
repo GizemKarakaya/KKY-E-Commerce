@@ -1,6 +1,9 @@
+// src/layout/Header.jsx
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Gravatar from 'react-gravatar';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../store/authSlice';
 import {
   Phone, Mail, Facebook, Instagram, Twitter, Youtube,
   Search, ShoppingCart, Heart, User, Menu, X
@@ -10,10 +13,19 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleShopDropdown = () => setIsShopDropdownOpen(!isShopDropdownOpen);
 
   const { user } = useSelector((state) => state.auth);
+
+  const handleLogout = async () => {
+    await dispatch(logout());
+    setIsMenuOpen(false);
+    navigate('/');
+  };
 
   return (
     <header className="w-full">
@@ -85,15 +97,29 @@ const Header = () => {
             {/* Desktop Icons */}
             <div className="hidden md:flex items-center space-x-4">
               {user ? (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
                   <Gravatar email={user.email} size={30} className="rounded-full cursor-pointer" title={user.email} />
                   <span className="text-sm font-medium">{user.name || user.email}</span>
+                  <button
+                    onClick={handleLogout}
+                    className="px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
+                  >
+                    Logout
+                  </button>
                 </div>
               ) : (
-                <a href="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
-                  <User size={20} />
-                  <span className="text-sm">Login / Register</span>
-                </a>
+                <div className="flex items-center gap-3">
+                  <a href="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+                    <User size={20} />
+                    <span className="text-sm">Login</span>
+                  </a>
+                  <a
+                    href="/signup"
+                    className="px-2 py-1 text-sm rounded bg-primary-600 text-white hover:bg-primary-700"
+                  >
+                    Register
+                  </a>
+                </div>
               )}
               <button className="text-gray-700 hover:text-primary-600">
                 <Search size={20} />
@@ -125,18 +151,35 @@ const Header = () => {
                 <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
                 <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
                 <a href="/pricing" className="text-gray-700 hover:text-primary-600 font-medium">Pricing</a>
+
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                   {user ? (
                     <div className="flex items-center space-x-2">
                       <Gravatar email={user.email} size={30} className="rounded-full cursor-pointer" title={user.email} />
                       <span className="text-sm font-medium">{user.name || user.email}</span>
+                      <button
+                        onClick={handleLogout}
+                        className="ml-2 px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300"
+                      >
+                        Logout
+                      </button>
                     </div>
                   ) : (
-                    <a href="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
-                      <User size={20} />
-                      <span className="text-sm">Login / Register</span>
-                    </a>
+                    <div className="flex items-center gap-3">
+                      <a href="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+                        <User size={20} />
+                        <span className="text-sm">Login</span>
+                      </a>
+                      <a
+                        href="/signup"
+                        className="px-2 py-1 text-sm rounded bg-primary-600 text-white hover:bg-primary-700"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Register
+                      </a>
+                    </div>
                   )}
+
                   <div className="flex items-center space-x-4">
                     <button className="text-gray-700 hover:text-primary-600">
                       <Search size={20} />
