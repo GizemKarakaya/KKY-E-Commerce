@@ -3,16 +3,15 @@ import { thunk } from 'redux-thunk';            // <-- named import
 import { createLogger } from 'redux-logger';
 
 import authReducer from './authSlice';
-// ileride eklersin
-// import { clientReducer } from './client/client.reducer';
-// import { productReducer } from './product/product.reducer';
-// import { cartReducer } from './cart/cart.reducer';
+import clientReducer from '../redux/reducers/clientReducer';
+import productReducer from '../redux/reducers/productReducer';
+import shoppingCartReducer from '../redux/reducers/shoppingCartReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  // client: clientReducer,
-  // product: productReducer,
-  // cart: cartReducer,
+  client: clientReducer,
+  product: productReducer,
+  shoppingCart: shoppingCartReducer,
 });
 
 const logger = createLogger({ collapsed: true });
