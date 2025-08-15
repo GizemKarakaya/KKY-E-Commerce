@@ -1,5 +1,5 @@
 // src/layout/Header.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Gravatar from 'react-gravatar';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,34 @@ import {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
+  const [isPagesDropdownOpen, setIsPagesDropdownOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const shopDropdownRef = useRef(null);
+  const pagesDropdownRef = useRef(null);
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleShopDropdown = () => setIsShopDropdownOpen(!isShopDropdownOpen);
+  const togglePagesDropdown = () => setIsPagesDropdownOpen(!isPagesDropdownOpen);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (shopDropdownRef.current && !shopDropdownRef.current.contains(event.target)) {
+        setIsShopDropdownOpen(false);
+      }
+      if (pagesDropdownRef.current && !pagesDropdownRef.current.contains(event.target)) {
+        setIsPagesDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const { user } = useSelector((state) => state.auth);
 
@@ -66,7 +88,7 @@ const Header = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="/" className="text-gray-700 hover:text-primary-600 font-medium">Home</a>
-              <div className="relative">
+              <div className="relative" ref={shopDropdownRef}>
                 <button
                   onClick={toggleShopDropdown}
                   className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1"
@@ -91,7 +113,23 @@ const Header = () => {
               <a href="/about" className="text-gray-700 hover:text-primary-600 font-medium">About</a>
               <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
               <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
-              <a href="/pricing" className="text-gray-700 hover:text-primary-600 font-medium">Pricing</a>
+              <div className="relative" ref={pagesDropdownRef}>
+                <button
+                  onClick={togglePagesDropdown}
+                  className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1"
+                >
+                  <span>Pages</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {isPagesDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50">
+                    <a href="/pricing" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pricing</a>
+                    <a href="/team" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Team</a>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Desktop Icons */}
@@ -150,7 +188,23 @@ const Header = () => {
                 <a href="/about" className="text-gray-700 hover:text-primary-600 font-medium">About</a>
                 <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
                 <a href="/contact" className="text-gray-700 hover:text-primary-600 font-medium">Contact</a>
-                <a href="/pricing" className="text-gray-700 hover:text-primary-600 font-medium">Pricing</a>
+                <div className="relative" ref={pagesDropdownRef}>
+                  <button
+                    onClick={togglePagesDropdown}
+                    className="text-gray-700 hover:text-primary-600 font-medium flex items-center justify-between w-full"
+                  >
+                    <span>Pages</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {isPagesDropdownOpen && (
+                    <div className="ml-4 mt-2 space-y-2">
+                      <a href="/pricing" className="block text-sm text-gray-600 hover:text-primary-600">Pricing</a>
+                      <a href="/team" className="block text-sm text-gray-600 hover:text-primary-600">Team</a>
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                   {user ? (
