@@ -1,9 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from '../components/Slider';
 import ProductCard from '../components/ProductCard';
+import TopCategories from '../components/category/TopCategories';
+import CategoriesGrid from '../components/category/CategoriesGrid';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   // Sample slider data
   const sliderData = [
     {
@@ -105,26 +109,6 @@ const HomePage = () => {
     }
   ];
 
-  // Category data
-  const categories = [
-    {
-      name: 'MEN',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80'
-    },
-    {
-      name: 'WOMEN',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80'
-    },
-    {
-      name: 'ACCESSORIES',
-      image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=880&q=80'
-    },
-    {
-      name: 'KIDS',
-      image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80'
-    }
-  ];
-
   return (
     <div className="min-h-screen">
       {/* Hero Section - Slider */}
@@ -141,26 +125,88 @@ const HomePage = () => {
     </p>
 
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-      {categories.map((category, index) => (
-        <div key={index} className="relative overflow-hidden rounded-lg group aspect-[3/4]">
-          <img
-            src={category.image}
-            alt={category.name}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-          <div className="absolute bottom-4 left-4 bg-white px-4 py-2 text-sm font-semibold shadow-md">
-            {category.name}
-          </div>
+      {/* Placeholder for editor's pick categories */}
+      <div className="relative overflow-hidden rounded-lg group aspect-[3/4] cursor-pointer">
+        <img
+          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80"
+          alt="Category 1"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute bottom-4 left-4 bg-white px-4 py-2 text-sm font-semibold shadow-md">
+          Bags
         </div>
-      ))}
+        <div className="absolute top-4 right-4 bg-yellow-400 text-white px-2 py-1 rounded text-xs font-semibold">
+          ⭐ 4.5
+        </div>
+      </div>
+      
+      <div className="relative overflow-hidden rounded-lg group aspect-[3/4] cursor-pointer">
+        <img
+          src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80"
+          alt="Category 2"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute bottom-4 left-4 bg-white px-4 py-2 text-sm font-semibold shadow-md">
+          Belts
+        </div>
+        <div className="absolute top-4 right-4 bg-yellow-400 text-white px-2 py-1 rounded text-xs font-semibold">
+          ⭐ 4.2
+        </div>
+      </div>
+      
+      <div className="relative overflow-hidden rounded-lg group aspect-[3/4] cursor-pointer">
+        <img
+          src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80"
+          alt="Category 3"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute bottom-4 left-4 bg-white px-4 py-2 text-sm font-semibold shadow-md">
+          Cosmetics
+        </div>
+        <div className="absolute top-4 right-4 bg-yellow-400 text-white px-2 py-1 rounded text-xs font-semibold">
+          ⭐ 4.7
+        </div>
+      </div>
+      
+      <div className="relative overflow-hidden rounded-lg group aspect-[3/4] cursor-pointer">
+        <img
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1026&q=80"
+          alt="Category 4"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div className="absolute bottom-4 left-4 bg-white px-4 py-2 text-sm font-semibold shadow-md">
+          Hats
+        </div>
+        <div className="absolute top-4 right-4 bg-yellow-400 text-white px-2 py-1 rounded text-xs font-semibold">
+          ⭐ 4.1
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 
+
+
       {/* Featured Products */}
-     {/* Featured Products */}
-<section className="py-16 bg-white">
+           {/* Top Categories */}
+      <TopCategories />
+
+      {/* All Categories */}
+      <section className="py-16 bg-white">
+        <div className="max-w-[1440px] mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-[32px] font-bold text-gray-900 mb-2">Tüm Kategoriler</h2>
+            <p className="text-[#737373] text-base">
+              Kategorilerimize göz atın ve istediğiniz ürünleri bulun
+            </p>
+          </div>
+          <CategoriesGrid />
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="py-16 bg-white">
   <div className="max-w-[1440px] mx-auto px-4">
     <div className="text-center mb-12">
       <p className="text-center font-medium text-gray uppercase mb-2">Featured Products</p>

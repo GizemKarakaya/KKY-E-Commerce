@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, ShoppingCart, Star } from 'lucide-react';
+// import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
@@ -38,10 +38,10 @@ const ProductCard = ({ product }) => {
         {/* Action Buttons */}
         <div className="absolute top-3 right-3 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button className="bg-white rounded-full p-2 shadow-md hover:bg-gray-50">
-            <Heart size={16} className="text-gray-600" />
+            <span className="text-gray-600">♥</span>
           </button>
           <button className="bg-white rounded-full p-2 shadow-md hover:bg-gray-50">
-            <ShoppingCart size={16} className="text-gray-600" />
+            <span className="text-gray-600">🛒</span>
           </button>
         </div>
       </div>
@@ -65,11 +65,12 @@ const ProductCard = ({ product }) => {
           <div className="flex items-center space-x-1 mb-2">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
-                <Star
+                <span
                   key={i}
-                  size={14}
-                  className={`${i < Math.floor(rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
-                />
+                  className={`text-sm ${i < Math.floor(rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                >
+                  ★
+                </span>
               ))}
             </div>
             {reviewCount > 0 && (
