@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { autoLoginByToken } from './store/authSlice';
 import { fetchCategories } from './redux/actions/categoryActions';
+import { fetchProducts } from './redux/actions/productActions';
 
 import Header from './layout/Header';
 import PageContent from './layout/PageContent';
@@ -37,6 +38,9 @@ function App() {
     
     // Kategorileri yükle
     dispatch(fetchCategories());
+    
+    // Ürünleri yükle
+    dispatch(fetchProducts(8, 0));
   }, [dispatch]);
 
   return (
