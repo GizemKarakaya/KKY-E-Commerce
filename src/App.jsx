@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { autoLoginByToken } from './store/authSlice';
+import { fetchCategories } from './redux/actions/categoryActions';
 
 import Header from './layout/Header';
 import PageContent from './layout/PageContent';
 import Footer from './layout/Footer';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
+import ShopCategoryPage from './pages/ShopCategoryPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import AboutPage from './pages/AboutPage';
 import PricingPage from './pages/PricingPage';
@@ -32,6 +34,9 @@ function App() {
     if (lsToken) {
       dispatch(autoLoginByToken());
     }
+    
+    // Kategorileri yükle
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   return (
@@ -41,8 +46,9 @@ function App() {
         <PageContent>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/shop" element={<ShopPage />} />
-            <Route path="/product/:id" element={<ProductDetailPage />} />
+                      <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop/:gender/:categoryName/:categoryId" element={<ShopCategoryPage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
                       <Route path="/about" element={<AboutPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/pricing" element={<PricingPage />} />

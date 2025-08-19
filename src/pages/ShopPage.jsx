@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { Filter, Grid, List, ChevronDown } from 'lucide-react';
+// import { Filter, Grid, List, ChevronDown } from 'lucide-react';
 
 const ShopPage = () => {
+  const { gender, categoryName, categoryId } = useParams();
+  
+  useEffect(() => {
+    if (gender && categoryName && categoryId) {
+      console.log(`Filtering by: ${gender}/${categoryName}/${categoryId}`);
+      // Burada API'den kategori bazlı ürünleri çekebiliriz
+    }
+  }, [gender, categoryName, categoryId]);
   // Sample product data for shop page
   const shopProducts = [
     {
@@ -391,7 +400,7 @@ const ShopPage = () => {
             {/* Left side - Filters */}
             <div className="flex items-center space-x-4">
               <button className="flex items-center space-x-2 text-gray-700 hover:text-primary-600">
-                <Filter size={20} />
+                <span>🔍</span>
                 <span>Filter</span>
               </button>
               <span className="text-gray-500">|</span>
@@ -415,7 +424,7 @@ const ShopPage = () => {
                   <option value="newest">Newest</option>
                   <option value="rating">Highest Rated</option>
                 </select>
-                <ChevronDown size={16} className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">▼</span>
               </div>
 
               {/* View Mode Toggle */}
@@ -424,13 +433,13 @@ const ShopPage = () => {
                   onClick={() => setViewMode('grid')}
                   className={`p-2 ${viewMode === 'grid' ? 'bg-primary-500 text-white' : 'text-gray-600 hover:text-primary-600'}`}
                 >
-                  <Grid size={20} />
+                  <span>⊞</span>
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
                   className={`p-2 ${viewMode === 'list' ? 'bg-primary-500 text-white' : 'text-gray-600 hover:text-primary-600'}`}
                 >
-                  <List size={20} />
+                  <span>☰</span>
                 </button>
               </div>
             </div>

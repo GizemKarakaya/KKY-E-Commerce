@@ -2,8 +2,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Gravatar from 'react-gravatar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { logout } from '../store/authSlice';
+import { slugify } from '../utils/slug';
+import { selectCategoriesByGender } from '../redux/selectors/categorySelectors';
 import {
   Phone, Mail, Facebook, Instagram, Twitter, Youtube,
   Search, ShoppingCart, Heart, User, Menu, X
@@ -42,6 +44,8 @@ const Header = () => {
   }, []);
 
   const { user } = useSelector((state) => state.auth);
+  const kadin = useSelector((state) => selectCategoriesByGender(state, "kadin"));
+  const erkek = useSelector((state) => selectCategoriesByGender(state, "erkek"));
 
   const handleLogout = async () => {
     await dispatch(logout());
@@ -88,27 +92,70 @@ const Header = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="/" className="text-gray-700 hover:text-primary-600 font-medium">Home</a>
-              <div className="relative" ref={shopDropdownRef}>
-                <button
-                  onClick={toggleShopDropdown}
-                  className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1"
-                >
+              <div className="relative group">
+                <button className="text-gray-700 hover:text-primary-600 font-medium flex items-center space-x-1">
                   <span>Shop</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                {isShopDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50">
-                    <a href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Products</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kadin</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Erkek</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bags</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Belts</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Cosmetics</a>
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Hats</a>
+
+                {/* DROPDOWN PANEL */}
+                <div
+                  className="
+                    invisible opacity-0 scale-95 group-hover:visible group-hover:opacity-100 group-hover:scale-100
+                    transition-all duration-150 origin-top
+                    absolute left-1/2 -translate-x-1/2 mt-3 w-[640px] z-50
+                  "
+                >
+                  <div className="rounded-2xl shadow-xl ring-1 ring-black/5 bg-white overflow-hidden">
+                    {/* Üst bar (görseldeki şerit) */}
+                    <div className="px-6 py-2 text-[11px] text-gray-500 border-b border-gray-100">
+                      Follow Us and get a chance to win 80% off
+                    </div>
+
+                    {/* İKİ SÜTUN GRID */}
+                    <div className="grid grid-cols-2 gap-12 px-6 py-6">
+                      {/* Kadın */}
+                      <div>
+                        <div className="text-[11px] font-semibold tracking-[0.12em] text-gray-500 uppercase mb-3">
+                          Kadın
+                        </div>
+                        <ul className="space-y-2">
+                          {kadin.map((c) => (
+                            <li key={c.id}>
+                              <Link
+                                to={`/shop/${c.gender}/${slugify(c.name)}/${c.id}`}
+                                className="block text-[15px] leading-6 text-gray-800 hover:text-gray-900"
+                              >
+                                {c.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Erkek */}
+                      <div>
+                        <div className="text-[11px] font-semibold tracking-[0.12em] text-gray-500 uppercase mb-3">
+                          Erkek
+                        </div>
+                        <ul className="space-y-2">
+                          {erkek.map((c) => (
+                            <li key={c.id}>
+                              <Link
+                                to={`/shop/${c.gender}/${slugify(c.name)}/${c.id}`}
+                                className="block text-[15px] leading-6 text-gray-800 hover:text-gray-900"
+                              >
+                                {c.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
               <a href="/about" className="text-gray-700 hover:text-primary-600 font-medium">About</a>
               <a href="#" className="text-gray-700 hover:text-primary-600 font-medium">Blog</a>
